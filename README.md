@@ -1,29 +1,7 @@
-# Front-end_HealthCheckInSystem
+**这是Vojago的毕设项目“基于安卓的个人健康打卡系统”的网页前端实现**
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+技术栈：
+- IDE: WebStorm
+- 语言: JavaScript
+- 框架: Vue
+- 包管理器: npm
