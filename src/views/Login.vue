@@ -1,7 +1,7 @@
 <script setup>
 import {User, Lock} from '@element-plus/icons-vue'
 import {ref} from 'vue'
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
 //控制注册与登录表单的显示， 默认显示注册
 const isRegister = ref(false)
 //定义注册数据模型
@@ -57,6 +57,8 @@ const loginData = ref({
 })
 //表单数据校验，登录表单与注册表单的校验规则相同，所以复用注册表单的校验规则
 //登录函数
+import {useRouter} from "vue-router";
+const router = useRouter();
 const userLogin = async () => {
   let result = await userLoginService(loginData.value);
   /*  if (result.code === 1) {
@@ -67,6 +69,8 @@ const userLogin = async () => {
     }*/
   // alert(result.message ? result.message : '登录成功');
   ElMessage.success(result.message ? result.message : '登录成功');
+  // 跳转到首页
+  router.push('/layout');
 }
 
 //定义数据模型的清空函数
