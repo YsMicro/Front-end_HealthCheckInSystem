@@ -1,9 +1,9 @@
 <script setup>
-
+import LoginVue from '@/views/Login.vue'
 </script>
 
 <template>
-  Hello World
+  <LoginVue/>
 </template>
 
 <style scoped>
