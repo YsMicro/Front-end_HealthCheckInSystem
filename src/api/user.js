@@ -9,3 +9,12 @@ export const userRegisterService = (registerData) => {
     }
     return request.post('/user/register', params);
 }
+
+export const userLoginService = (loginData) => {
+    //借助UrlSearchParams对象拼接请求参数
+    const params = new URLSearchParams();
+    for (let key in loginData) {
+        params.append(key, loginData[key]);
+    }
+    return request.post('/user/login', params);
+}
