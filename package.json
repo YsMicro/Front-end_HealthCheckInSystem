@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "package": "tar -czvf dist.tar.gz ./dist",
     "preview": "vite preview"
   },
   "dependencies": {
