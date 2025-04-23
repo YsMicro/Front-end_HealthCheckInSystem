@@ -17,42 +17,41 @@ import avatar from '@/assets/default.png'
     <!-- 左侧菜单 -->
     <el-aside width="200px">
       <div class="el-aside__logo"></div>
-      <el-menu active-text-color="#ffd04b" background-color="#232323"  text-color="#fff"
-               router>
-        <el-menu-item >
+      <el-menu active-text-color="#ffd04b" background-color="#144C29A8" text-color="#fff" router>
+        <el-menu-item index="/healthRecord/manage">
           <el-icon>
-            <Management />
+            <Management/>
           </el-icon>
-          <span>文章分类</span>
+          <span>健康记录</span>
         </el-menu-item>
-        <el-menu-item >
+        <el-menu-item index="/user/manage">
           <el-icon>
-            <Promotion />
+            <Promotion/>
           </el-icon>
-          <span>文章管理</span>
+          <span>用户管理</span>
         </el-menu-item>
-        <el-sub-menu >
+        <el-sub-menu>
           <template #title>
             <el-icon>
-              <UserFilled />
+              <UserFilled/>
             </el-icon>
             <span>个人中心</span>
           </template>
-          <el-menu-item >
+          <el-menu-item index="/user/info">
             <el-icon>
-              <User />
+              <User/>
             </el-icon>
             <span>基本资料</span>
           </el-menu-item>
-          <el-menu-item >
+          <el-menu-item index="/user/avatar">
             <el-icon>
-              <Crop />
+              <Crop/>
             </el-icon>
             <span>更换头像</span>
           </el-menu-item>
-          <el-menu-item >
+          <el-menu-item index="/user/resetPassword">
             <el-icon>
-              <EditPen />
+              <EditPen/>
             </el-icon>
             <span>重置密码</span>
           </el-menu-item>
@@ -63,12 +62,12 @@ import avatar from '@/assets/default.png'
     <el-container>
       <!-- 头部区域 -->
       <el-header>
-        <div>黑马程序员：<strong>东哥</strong></div>
+        <div>用户名：<strong>Vojago</strong></div>
         <el-dropdown placement="bottom-end">
                     <span class="el-dropdown__box">
-                        <el-avatar :src="avatar" />
+                        <el-avatar :src="avatar"/>
                         <el-icon>
-                            <CaretBottom />
+                            <CaretBottom/>
                         </el-icon>
                     </span>
           <template #dropdown>
@@ -83,12 +82,14 @@ import avatar from '@/assets/default.png'
       </el-header>
       <!-- 中间区域 -->
       <el-main>
-        <div style="width: 1290px; height: 570px;border: 1px solid red;">
-          内容展示区
-        </div>
+        <!--        <div style="width: 1290px; height: 570px;border: 1px solid red;">-->
+        <!--          内容展示区-->
+        <!--        </div>-->
+        <router-view/>
       </el-main>
       <!-- 底部区域 -->
-      <el-footer>大事件 ©2023 Created by 黑马程序员</el-footer>
+      <!--      <el-footer>大事件 ©2023 Created by 黑马程序员</el-footer>-->
+      <el-footer>个人健康打卡系统 ©2025 Created by Vojago</el-footer>
     </el-container>
   </el-container>
 </template>
@@ -98,7 +99,7 @@ import avatar from '@/assets/default.png'
   height: 100vh;
 
   .el-aside {
-    background-color: #232323;
+    background-color: rgba(20, 76, 41, 0.66);
 
     &__logo {
       height: 120px;
@@ -121,7 +122,7 @@ import avatar from '@/assets/default.png'
       align-items: center;
 
       .el-icon {
-        color: #999;
+        color: rgba(20, 76, 41, 0.66);
         margin-left: 10px;
       }
 
@@ -137,7 +138,7 @@ import avatar from '@/assets/default.png'
     align-items: center;
     justify-content: center;
     font-size: 14px;
-    color: #666;
+    color: rgba(69, 140, 101, 0.66);
   }
 }
 </style>

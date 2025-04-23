@@ -17,7 +17,29 @@ const routes = [
     {
         path: '/layout',
         // path: '/',
-        component: LayoutVue
+        component: LayoutVue,
+        children: [
+            {
+                path: '/healthRecord/manage',
+                component: () => import('@/views/healthRecord/HealthRecordManage.vue')
+            },
+            {
+                path: '/user/avatar',
+                component: () => import('@/views/user/UserAvatar.vue')
+            },
+            {
+                path: '/user/resetPassword',
+                component: () => import('@/views/user/UserResetPassword.vue')
+            },
+            {
+                path: '/user/info',
+                component: () => import('@/views/user/UserInfo.vue')
+            },
+            {
+                path: '/user/manage',
+                component: () => import('@/views/user/UserManage.vue')
+            }
+        ]
     }
 ]
 
