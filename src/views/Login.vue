@@ -2,6 +2,9 @@
 import {User, Lock} from '@element-plus/icons-vue'
 import {ref} from 'vue'
 import {ElMessage} from 'element-plus'
+
+const isAdminLogin = ref(false);
+
 //控制注册与登录表单的显示， 默认显示注册
 const isRegister = ref(false)
 //定义注册数据模型
@@ -36,7 +39,7 @@ const rules = {
 }
 
 //调用注册接口
-import {userLoginService, userRegisterService} from '@/api/user.js'
+import {userRegisterService} from '@/api/user.js'
 
 const userRegister = async () => {
   let result = await userRegisterService(registerData.value);
@@ -56,22 +59,41 @@ const loginData = ref({
   password: ''
 })
 //表单数据校验，登录表单与注册表单的校验规则相同，所以复用注册表单的校验规则
-//登录函数
+//旧登录函数
 import {useRouter} from "vue-router";
+
 const router = useRouter();
-const userLogin = async () => {
+import {adminLoginService, userLoginService} from '@/api/user.js'
+/*const userLogin = async () => {
   let result = await userLoginService(loginData.value);
-  /*  if (result.code === 1) {
+  /!*  if (result.code === 1) {
       //成功
       alert(result.message ? result.message : '登录成功')
     } else {
       alert(result.message ? result.message : '登录失败');
-    }*/
+    }*!/
   // alert(result.message ? result.message : '登录成功');
   ElMessage.success(result.message ? result.message : '登录成功');
   // 跳转到首页
   router.push('/layout');
+}*/
+
+// 修改登录函数
+const userLogin = async () => {
+  let result;
+  if (isAdminLogin.value) {
+    result = await adminLoginService(loginData.value); // 新增管理员登录接口
+  } else {
+    result = await userLoginService(loginData.value);
+  }
+
+  ElMessage.success(result.message);
+
+  // 存储用户角色信息
+  localStorage.setItem('userRole', isAdminLogin.value ? 'admin' : 'user');
+  router.push('/layout');
 }
+
 
 //定义数据模型的清空函数
 const clearRegisterData = () => {
@@ -121,6 +143,8 @@ const clearLoginData = () => {
       <el-form ref="form" size="large" autocomplete="off" v-else :model="loginData" :rules="rules">
         <el-form-item>
           <h1>登录</h1>
+          <!-- 在登录表单中添加管理员登录切换 -->
+          <el-switch v-model="isAdminLogin" active-text="管理员" inactive-text="普通用户" style="margin-left: auto"/>
         </el-form-item>
         <el-form-item prop="username">
           <el-input :prefix-icon="User" placeholder="请输入用户名" v-model="loginData.username"></el-input>

@@ -37,7 +37,8 @@ const routes = [
             },
             {
                 path: '/user/manage',
-                component: () => import('@/views/user/UserManage.vue')
+                component: () => import('@/views/user/UserManage.vue'),
+                meta: {requiresAdmin: true}
             }
         ]
     }
@@ -48,6 +49,18 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+router.beforeEach((to, from, next) => {
+    const userRole = localStorage.getItem('userRole') || 'user';
+
+    if (to.meta.requiresAdmin && userRole !== 'admin') {
+        next('/login'); // 无权限则跳转登录页
+        ElMessage.warning('需要管理员权限');
+    } else {
+        next();
+    }
+});
+
 
 // 导出
 export default router

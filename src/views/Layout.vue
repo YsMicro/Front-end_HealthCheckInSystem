@@ -10,6 +10,10 @@ import {
   CaretBottom
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
+import {ref} from "vue";
+
+const userRole = ref(localStorage.getItem('userRole') || 'user');
+
 </script>
 
 <template>
@@ -24,7 +28,7 @@ import avatar from '@/assets/default.png'
           </el-icon>
           <span>健康记录</span>
         </el-menu-item>
-        <el-menu-item index="/user/manage">
+        <el-menu-item v-if="userRole === 'admin'" index="/user/manage">
           <el-icon>
             <Promotion/>
           </el-icon>
