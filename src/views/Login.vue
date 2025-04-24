@@ -61,22 +61,12 @@ const loginData = ref({
 //表单数据校验，登录表单与注册表单的校验规则相同，所以复用注册表单的校验规则
 //旧登录函数
 import {useRouter} from "vue-router";
-
 const router = useRouter();
+
+import {useTokenStore} from "@/stores/token.js";
+const tokenStore = useTokenStore();
+
 import {adminLoginService, userLoginService} from '@/api/user.js'
-/*const userLogin = async () => {
-  let result = await userLoginService(loginData.value);
-  /!*  if (result.code === 1) {
-      //成功
-      alert(result.message ? result.message : '登录成功')
-    } else {
-      alert(result.message ? result.message : '登录失败');
-    }*!/
-  // alert(result.message ? result.message : '登录成功');
-  ElMessage.success(result.message ? result.message : '登录成功');
-  // 跳转到首页
-  router.push('/layout');
-}*/
 
 // 修改登录函数
 const userLogin = async () => {
@@ -88,6 +78,7 @@ const userLogin = async () => {
   }
 
   ElMessage.success(result.message);
+  tokenStore.setToken(result.data);
 
   // 存储用户角色信息
   localStorage.setItem('userRole', isAdminLogin.value ? 'admin' : 'user');

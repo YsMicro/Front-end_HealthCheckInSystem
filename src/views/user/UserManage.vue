@@ -4,27 +4,17 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-const categorys = ref([
+const users = ref([
   {
-    "id": 3,
-    "categoryName": "美食",
-    "categoryAlias": "my",
-    "createTime": "2023-09-02 12:06:59",
-    "updateTime": "2023-09-02 12:06:59"
-  },
-  {
-    "id": 4,
-    "categoryName": "娱乐",
-    "categoryAlias": "yl",
-    "createTime": "2023-09-02 12:08:16",
-    "updateTime": "2023-09-02 12:08:16"
-  },
-  {
-    "id": 5,
-    "categoryName": "军事",
-    "categoryAlias": "js",
-    "createTime": "2023-09-02 12:08:33",
-    "updateTime": "2023-09-02 12:08:33"
+    "userId": 3,
+    "username": "美食",
+    "nickname": "my",
+    "gender": "2023-09-02 12:06:59",
+    "phone": "2023-09-02 12:06:59",
+    "email": "2023-09-02 12:06:59",
+    "status": 1,
+    "symptoms": "2023-09-02 12:06:59",
+    "lastLoginTime": "2023-09-02 12:06:59"
   }
 ])
 </script>
@@ -32,13 +22,13 @@ const categorys = ref([
   <el-card class="page-container">
     <template #header>
       <div class="header">
-        <span>文章分类</span>
+        <span>用户列表</span>
         <div class="extra">
-          <el-button type="primary">添加分类</el-button>
+          <el-button type="primary">添加用户</el-button>
         </div>
       </div>
     </template>
-    <el-table :data="categorys" style="width: 100%">
+    <el-table :data="users" style="width: 100%">
       <el-table-column label="序号" width="100" type="index"> </el-table-column>
       <el-table-column label="分类名称" prop="categoryName"></el-table-column>
       <el-table-column label="分类别名" prop="categoryAlias"></el-table-column>
