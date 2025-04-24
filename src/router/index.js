@@ -3,6 +3,7 @@ import {createRouter, createWebHistory} from "vue-router";
 // 导入组件
 import LoginVue from "@/views/Login.vue";
 import LayoutVue from "@/views/Layout.vue";
+import {ElMessage} from "element-plus";
 
 // 定义路由关系
 const routes = [
@@ -50,11 +51,33 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
     const userRole = localStorage.getItem('userRole') || 'user';
 
     if (to.meta.requiresAdmin && userRole !== 'admin') {
         next('/login'); // 无权限则跳转登录页
+        ElMessage.warning('需要管理员权限');
+    } else {
+        next();
+    }
+});*/
+router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem('token'); // 从本地存储获取token
+    const userRole = localStorage.getItem('userRole') || 'user';
+
+    // 白名单配置
+    const whiteList = ['/login'];
+
+    // 非白名单路径且无token时跳转登录
+    if (!whiteList.includes(to.path) && !token) {
+        next('/login');
+        ElMessage.warning('请先登录');
+        return;
+    }
+
+    // 管理员权限校验
+    if (to.meta.requiresAdmin && userRole !== 'admin') {
+        next('/login');
         ElMessage.warning('需要管理员权限');
     } else {
         next();

@@ -23,7 +23,7 @@ instance.interceptors.request.use(config => {
     alert('请求异常');
     return Promise.reject(err);//异步的状态转化成失败的状态
 })
-
+import router from "@/router/index.js";
 //添加响应拦截器
 instance.interceptors.response.use(result => {
     console.log('完整响应体: ', result);
@@ -35,7 +35,14 @@ instance.interceptors.response.use(result => {
     return Promise.reject(result.data);
 }, err => {
     console.log('完整响应体: ', err);
-    alert('服务异常');
+    //若响应状态码为401,则跳转到登录页
+    if (err.response.status === 401) {
+        ElMessage.warning('请登录');
+        //跳转到登录页
+        router.push('/login');
+    } else {
+        ElMessage.error('服务异常');
+    }
     return Promise.reject(err);//异步的状态转化成失败的状态
 })
 
