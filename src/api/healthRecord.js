@@ -6,3 +6,8 @@ export const healthRecordListService = () => {
     // return request.get('/healthRecord', {headers: {'Authorization': tokenStore.token}});
     return request.get('/healthRecord');
 }
+
+// 健康记录添加
+export const healthRecordAddService = (healthRecordData) => {
+    return request.post('/healthRecord', healthRecordData);
+}
