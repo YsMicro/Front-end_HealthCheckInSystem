@@ -11,3 +11,8 @@ export const healthRecordListService = () => {
 export const healthRecordAddService = (healthRecordData) => {
     return request.post('/healthRecord', healthRecordData);
 }
+
+// 健康记录修改
+export const healthRecordUpdateService = (healthRecordData) => {
+    return request.put('/healthRecord', healthRecordData);
+}

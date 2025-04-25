@@ -1,10 +1,9 @@
 <script setup>
-import {
-  Edit,
-  Delete
-} from '@element-plus/icons-vue'
+import {Delete, Edit} from '@element-plus/icons-vue'
 import {ref} from 'vue'
 import {ElMessage} from "element-plus";
+//声明列表查询异步函数
+import {healthRecordAddService, healthRecordListService, healthRecordUpdateService} from "@/api/healthRecord.js"
 
 const healthRecord = ref([
   {
@@ -18,9 +17,6 @@ const healthRecord = ref([
   }
 ])
 
-//声明列表查询异步函数
-import {healthRecordListService} from "@/api/healthRecord.js"
-
 const healthRecordList = async () => {
   let result = await healthRecordListService();
   healthRecord.value = result.data;
@@ -31,10 +27,6 @@ healthRecordList();
 const dialogVisible = ref(false)
 
 //添加健康记录数据模型
-// const categoryModel = ref({
-//   categoryName: '',
-//   categoryAlias: ''
-// })
 const addForm = ref({
   userId: null,        // 数字类型
   temperature: null,   // 数字类型（带小数）
@@ -44,14 +36,6 @@ const addForm = ref({
   syncStatus: 0        // 数字（0/1）
 })
 //添加健康记录表单校验
-// const rules = {
-//   categoryName: [
-//     { required: true, message: '请输入分类名称', trigger: 'blur' },
-//   ],
-//   categoryAlias: [
-//     { required: true, message: '请输入分类别名', trigger: 'blur' },
-//   ]
-// }
 const rules = {
   // userId: [
   //   {required: true, message: '用户ID不能为空', trigger: 'blur'},
@@ -73,7 +57,6 @@ const rules = {
     {required: true, message: '请选择记录时间', trigger: 'change'}
   ]
 }
-import {healthRecordAddService} from "@/api/healthRecord.js";
 // 添加健康记录
 const addHealthRecord = async () => {
   try {
@@ -85,14 +68,48 @@ const addHealthRecord = async () => {
     console.log(error);
   }
 }
+const title = ref('');
+
+const showDialog = (row) => {
+  dialogVisible.value = true;
+  title.value = '编辑记录';
+  addForm.value.recordId = row.recordId;
+  addForm.value.userId = row.userId;
+  addForm.value.temperature = row.temperature;
+  addForm.value.symptoms = row.symptoms;
+  addForm.value.recordTime = row.recordTime;
+  addForm.value.remark = row.remark;
+  addForm.value.id = row.id;
+}
+
+// 编辑健康记录
+const updateHealthRecord = async () => {
+  try {
+    let result = await healthRecordUpdateService(addForm.value);
+    ElMessage.success(result.message ? result.message : '修改成功');
+    healthRecordList();
+    dialogVisible.value = false;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// 清空表单
+const clearForm = () => {
+  addForm.value.temperature = null;
+  addForm.value.symptoms = [];
+  addForm.value.remark = '';
+  addForm.value.recordTime = '';
+}
 </script>
+
 <template>
   <el-card class="page-container">
     <template #header>
       <div class="header">
         <span>健康记录</span>
         <div class="extra">
-          <el-button type="primary" @click="dialogVisible = true">添加记录</el-button>
+          <el-button type="primary" @click="dialogVisible = true;title = '添加记录';">添加记录</el-button>
         </div>
       </div>
     </template>
@@ -113,7 +130,8 @@ const addHealthRecord = async () => {
       </el-table-column>
       <el-table-column label="操作" width="100">
         <template #default="{ row }">
-          <el-button :icon="Edit" circle plain type="primary"></el-button>
+          <el-button :icon="Edit" circle plain type="primary"
+                     @click="showDialog(row)"></el-button>
           <el-button :icon="Delete" circle plain type="danger"></el-button>
         </template>
       </el-table-column>
@@ -123,23 +141,7 @@ const addHealthRecord = async () => {
     </el-table>
 
     <!-- 添加健康记录弹窗 -->
-    <!--    <el-dialog v-model="dialogVisible" title="添加健康记录" width="30%">-->
-    <!--      <el-form :model="addForm" :rules="rules" label-width="100px" style="padding-right: 30px">-->
-    <!--        <el-form-item label="分类名称" prop="categoryName">-->
-    <!--          <el-input v-model="addForm.categoryName" minlength="1" maxlength="10"></el-input>-->
-    <!--        </el-form-item>-->
-    <!--        <el-form-item label="分类别名" prop="categoryAlias">-->
-    <!--          <el-input v-model="addForm.categoryAlias" minlength="1" maxlength="15"></el-input>-->
-    <!--        </el-form-item>-->
-    <!--      </el-form>-->
-    <!--      <template #footer>-->
-    <!--        <span class="dialog-footer">-->
-    <!--            <el-button @click="dialogVisible = false">取消</el-button>-->
-    <!--            <el-button type="primary"> 确认 </el-button>-->
-    <!--        </span>-->
-    <!--      </template>-->
-    <!--    </el-dialog>-->
-    <el-dialog v-model="dialogVisible" title="添加健康记录" width="40%">
+    <el-dialog v-model="dialogVisible" :title="title" width="40%" @close="clearForm()">
       <el-form :model="addForm" :rules="rules" label-width="120px">
         <!--        <el-form-item label="用户ID" prop="userId">-->
         <!--          <el-input-number v-model="addForm.userId" :min="1"/>-->
@@ -162,7 +164,7 @@ const addHealthRecord = async () => {
               allow-create
               placeholder="可输入或选择症状">
             <el-option
-                v-for="item in ['咳嗽', '发热', '乏力', '头痛']"
+                v-for="item in ['无明显症状','咳嗽', '发热', '乏力', '头痛']"
                 :key="item"
                 :label="item"
                 :value="item"/>
@@ -187,8 +189,9 @@ const addHealthRecord = async () => {
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取消</el-button>
-                    <el-button type="primary" @click="addHealthRecord"> 确认 </el-button>
+                    <el-button @click="dialogVisible = false;">取消</el-button>
+                    <el-button type="primary"
+                               @click="title==='添加记录'? addHealthRecord(): updateHealthRecord()"> 确认 </el-button>
                 </span>
       </template>
     </el-dialog>
