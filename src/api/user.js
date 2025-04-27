@@ -26,3 +26,7 @@ export const adminLoginService = (loginData) => {
     }
     return request.post('/admin/login', params);
 }
+
+export const userInfoService = () => {
+    return request.get('/user/userInfo');
+}

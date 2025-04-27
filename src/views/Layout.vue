@@ -12,9 +12,20 @@ import {
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
 import {ref} from "vue";
+import {userInfoService} from "@/api/user.js";
+import useUserInfoStore from "@/stores/userInfo.js";
 
 const userRole = ref(localStorage.getItem('userRole') || 'user');
 
+
+const userInfoStore = useUserInfoStore();
+// 获取用户信息
+const getUserInfo = async () => {
+  let result = await userInfoService();
+  userInfoStore.setInfo(result.data);
+
+};
+getUserInfo();
 </script>
 
 <template>
@@ -73,10 +84,10 @@ const userRole = ref(localStorage.getItem('userRole') || 'user');
     <el-container>
       <!-- 头部区域 -->
       <el-header>
-        <div>用户名：<strong>Vojago</strong></div>
+        <div>用户名：<strong>{{ userInfoStore.info.nickname }}</strong></div>
         <el-dropdown placement="bottom-end">
                     <span class="el-dropdown__box">
-                        <el-avatar :src="avatar"/>
+                        <el-avatar :src="userInfoStore.info.avatarUrl?userInfoStore.info.avatarUrl:avatar"/>
                         <el-icon>
                             <CaretBottom/>
                         </el-icon>
