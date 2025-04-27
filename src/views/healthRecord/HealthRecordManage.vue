@@ -6,6 +6,7 @@ import {ElMessage, ElMessageBox} from "element-plus";
 import {
   healthRecordAddService,
   healthRecordDeleteService,
+  healthRecordListPageService,
   healthRecordListService,
   healthRecordUpdateService
 } from "@/api/healthRecord.js"
@@ -142,6 +143,36 @@ const deleteHealthRecord = (id) => {
     console.log(error);
   }
 }
+
+// 分页
+const pageNum = ref(1);
+const pageSize = ref(5);
+const total = ref(20);
+const onSizeChange = (size) => {
+  pageSize.value = size;
+  healthRecordListPage();
+}
+const onCurrentChange = (num) => {
+  pageNum.value = num;
+  healthRecordListPage();
+}
+
+// 获取健康记录分页列表
+const healthRecordListPage = async () => {
+  try {
+    let params = {
+      pageNum: pageNum.value,
+      pageSize: pageSize.value,
+      userId: addForm.value.userId
+    }
+    let result = await healthRecordListPageService(params);
+    total.value = result.data.total;
+    healthRecord.value = result.data.items;
+  } catch (error) {
+    console.log(error);
+  }
+}
+healthRecordListPage();
 </script>
 
 <template>
@@ -154,7 +185,33 @@ const deleteHealthRecord = (id) => {
         </div>
       </div>
     </template>
-    <el-table :data="healthRecord" style="width: 100%">
+
+    <!-- 搜索表单 -->
+    <!--    <el-form inline style="display: flex; flex-wrap: wrap; gap: 10px">
+          <el-form-item label="文章分类：" style="margin-right: 20px">
+            <el-select placeholder="请选择" v-model="categoryId" style="width: 200px">
+              <el-option
+                  v-for="c in categorys"
+                  :key="c.id"
+                  :label="c.categoryName"
+                  :value="c.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="发布状态：">
+            <el-select placeholder="请选择" v-model="state">
+              <el-option label="已发布" value="已发布"></el-option>
+              <el-option label="草稿" value="草稿"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary">搜索</el-button>
+            <el-button>重置</el-button>
+          </el-form-item>
+        </el-form>-->
+
+    <el-table :data="healthRecord" max-height="calc(100vh - 400px)" style="width: 100%">
       <el-table-column label="序号" width="100" type="index"></el-table-column>
       <el-table-column label="用户ID" prop="userId"></el-table-column>
       <el-table-column label="体温" prop="temperature"></el-table-column>
@@ -180,7 +237,6 @@ const deleteHealthRecord = (id) => {
         <el-empty description="没有数据"/>
       </template>
     </el-table>
-
     <!-- 添加健康记录弹窗 -->
     <el-dialog v-model="dialogVisible" :title="title" width="40%" @close="clearForm()">
       <el-form :model="addForm" :rules="rules" label-width="120px">
@@ -236,6 +292,23 @@ const deleteHealthRecord = (id) => {
                 </span>
       </template>
     </el-dialog>
+    <!-- 分页条 -->
+    <el-pagination v-model:current-page="pageNum" v-model:page-size="pageSize" :page-sizes="[3, 5 ,10, 15]"
+                   :total="total" background layout="jumper, total, sizes, prev, pager, next"
+                   style="margin-top: 20px; justify-content: flex-end"
+                   @size-change="onSizeChange" @current-change="onCurrentChange"/>
+    <!--    <el-pagination
+            v-model:current-page="currentPage4"
+            v-model:page-size="pageSize4"
+            :page-sizes="[100, 200, 300, 400]"
+            :size="size"
+            :disabled="disabled"
+            :background="background"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="400"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+        />-->
   </el-card>
 </template>
 

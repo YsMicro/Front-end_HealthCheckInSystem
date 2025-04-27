@@ -23,3 +23,10 @@ export const healthRecordDeleteService = (id) => {
         data: {recordId: id}
     });
 }
+
+// 健康记录列表查询
+export const healthRecordListPageService = (params) => {
+    return request.get('/healthRecord/list', {
+        params: params
+    });
+}
