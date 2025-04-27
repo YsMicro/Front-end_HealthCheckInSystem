@@ -16,3 +16,10 @@ export const healthRecordAddService = (healthRecordData) => {
 export const healthRecordUpdateService = (healthRecordData) => {
     return request.put('/healthRecord', healthRecordData);
 }
+
+// 健康记录删除
+export const healthRecordDeleteService = (id) => {
+    return request.delete('/healthRecord', {
+        data: {recordId: id}
+    });
+}

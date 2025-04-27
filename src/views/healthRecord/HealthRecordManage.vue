@@ -1,9 +1,14 @@
 <script setup>
 import {Delete, Edit} from '@element-plus/icons-vue'
 import {ref} from 'vue'
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 //声明列表查询异步函数
-import {healthRecordAddService, healthRecordListService, healthRecordUpdateService} from "@/api/healthRecord.js"
+import {
+  healthRecordAddService,
+  healthRecordDeleteService,
+  healthRecordListService,
+  healthRecordUpdateService
+} from "@/api/healthRecord.js"
 
 const healthRecord = ref([
   {
@@ -101,6 +106,42 @@ const clearForm = () => {
   addForm.value.remark = '';
   addForm.value.recordTime = '';
 }
+
+// 删除健康记录
+const deleteHealthRecord = (id) => {
+  try {
+    ElMessageBox.confirm(
+        // 'proxy will permanently delete the file. Continue?',
+        '确认要删除这条记录吗？',
+        // 'Warning',
+        '警告',
+        {
+          // confirmButtonText: 'OK',
+          confirmButtonText: '确认',
+          // cancelButtonText: 'Cancel',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+    )
+        .then(async () => {
+          let result = await healthRecordDeleteService(id);
+          ElMessage({
+            type: 'success',
+            // message: 'Delete completed',
+            message: '删除成功',
+          })
+          healthRecordList();
+        })
+        .catch(() => {
+          ElMessage({
+            type: 'info',
+            message: '取消删除',
+          })
+        })
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>
 
 <template>
@@ -132,7 +173,7 @@ const clearForm = () => {
         <template #default="{ row }">
           <el-button :icon="Edit" circle plain type="primary"
                      @click="showDialog(row)"></el-button>
-          <el-button :icon="Delete" circle plain type="danger"></el-button>
+          <el-button :icon="Delete" circle plain type="danger" @click="deleteHealthRecord(row.recordId)"></el-button>
         </template>
       </el-table-column>
       <template #empty>
