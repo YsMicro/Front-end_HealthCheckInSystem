@@ -1,13 +1,14 @@
 <script setup>
 import {
-  Management,
-  Promotion,
-  UserFilled,
-  User,
+  CaretBottom,
   Crop,
   EditPen,
+  House,
+  Management,
+  Promotion,
   SwitchButton,
-  CaretBottom
+  User,
+  UserFilled,
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
 import {ref} from "vue";
@@ -22,6 +23,12 @@ const userRole = ref(localStorage.getItem('userRole') || 'user');
     <el-aside width="200px">
       <div class="el-aside__logo"></div>
       <el-menu active-text-color="#ffd04b" background-color="#144C29A8" text-color="#fff" router>
+        <el-menu-item index="/home">
+          <el-icon>
+            <House/>
+          </el-icon>
+          <span>首页</span>
+        </el-menu-item>
         <el-menu-item index="/healthRecord/manage">
           <el-icon>
             <Management/>

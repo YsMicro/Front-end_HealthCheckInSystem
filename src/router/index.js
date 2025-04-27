@@ -20,6 +20,20 @@ const routes = [
         // path: '/',
         component: LayoutVue,
         children: [
+
+            {
+                path: '/home',
+                component: () => import('@/views/Home.vue')
+            },
+            // 修改默认重定向
+            {
+                path: '/layout',
+                component: LayoutVue,
+                redirect: '/home', // 添加这行设置默认跳转
+                children: [
+                    // ...原有路由配置
+                ]
+            },
             {
                 path: '/healthRecord/manage',
                 component: () => import('@/views/healthRecord/HealthRecordManage.vue')
@@ -51,16 +65,6 @@ const router = createRouter({
     routes
 })
 
-/*router.beforeEach((to, from, next) => {
-    const userRole = localStorage.getItem('userRole') || 'user';
-
-    if (to.meta.requiresAdmin && userRole !== 'admin') {
-        next('/login'); // 无权限则跳转登录页
-        ElMessage.warning('需要管理员权限');
-    } else {
-        next();
-    }
-});*/
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem('token'); // 从本地存储获取token
     const userRole = localStorage.getItem('userRole') || 'user';
