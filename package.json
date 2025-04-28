@@ -1,13 +1,13 @@
 {
   "name": "front-end-healthcheckinsystem",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "package": "tar -czvf dist.tar.gz ./dist",
-    "back-end": "java -jar \"E:\\Documents\\Project\\Android Health Check-In System\\Back-end_HealthCheckInSystem\\target\\Back-end_HealthCheckInSystem-1.1.0.jar\"",
+    "back-end": "java -jar \"E:\\Documents\\Project\\Android Health Check-In System\\Back-end_HealthCheckInSystem\\target\\Back-end_HealthCheckInSystem-1.2.0.jar\"",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -186,31 +186,6 @@ healthRecordListPage();
       </div>
     </template>
 
-    <!-- 搜索表单 -->
-    <!--    <el-form inline style="display: flex; flex-wrap: wrap; gap: 10px">
-          <el-form-item label="文章分类：" style="margin-right: 20px">
-            <el-select placeholder="请选择" v-model="categoryId" style="width: 200px">
-              <el-option
-                  v-for="c in categorys"
-                  :key="c.id"
-                  :label="c.categoryName"
-                  :value="c.id">
-              </el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="发布状态：">
-            <el-select placeholder="请选择" v-model="state">
-              <el-option label="已发布" value="已发布"></el-option>
-              <el-option label="草稿" value="草稿"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary">搜索</el-button>
-            <el-button>重置</el-button>
-          </el-form-item>
-        </el-form>-->
-
     <el-table :data="healthRecord" max-height="calc(100vh - 400px)" style="width: 100%">
       <el-table-column label="序号" width="100" type="index"></el-table-column>
       <el-table-column label="用户ID" prop="userId"></el-table-column>
@@ -297,18 +272,6 @@ healthRecordListPage();
                    :total="total" background layout="jumper, total, sizes, prev, pager, next"
                    style="margin-top: 20px; justify-content: flex-end"
                    @size-change="onSizeChange" @current-change="onCurrentChange"/>
-    <!--    <el-pagination
-            v-model:current-page="currentPage4"
-            v-model:page-size="pageSize4"
-            :page-sizes="[100, 200, 300, 400]"
-            :size="size"
-            :disabled="disabled"
-            :background="background"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="400"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-        />-->
   </el-card>
 </template>
 
