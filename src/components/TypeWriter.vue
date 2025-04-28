@@ -1,5 +1,5 @@
 <template>
-  <el-card class="page-container">
+  <el-card class="page-container" shadow="never">
     <div :style="styleProps" class="typewriter">
       <span>{{ displayText }}</span>
       <span class="cursor">|</span>
@@ -99,6 +99,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: white 1px solid;
 }
 
 .typewriter {

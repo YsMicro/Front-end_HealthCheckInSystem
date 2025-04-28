@@ -10,6 +10,7 @@ export const userRegisterService = (registerData) => {
     return request.post('/user/register', params);
 }
 
+// 用户登录
 export const userLoginService = (loginData) => {
     //借助UrlSearchParams对象拼接请求参数
     const params = new URLSearchParams();
@@ -19,6 +20,7 @@ export const userLoginService = (loginData) => {
     return request.post('/user/login', params);
 }
 
+// 管理员登录
 export const adminLoginService = (loginData) => {
     const params = new URLSearchParams();
     for (let key in loginData) {
@@ -27,6 +29,12 @@ export const adminLoginService = (loginData) => {
     return request.post('/admin/login', params);
 }
 
+// 获取用户信息
 export const userInfoService = () => {
     return request.get('/user/userInfo');
+}
+
+// 更新用户信息
+export const updateUserInfoService = (userInfoData) => {
+    return request.put('/user/update', userInfoData);
 }
