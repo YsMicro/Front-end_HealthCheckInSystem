@@ -1,7 +1,13 @@
 <script setup>
-import {User, Lock} from '@element-plus/icons-vue'
+import {Lock, User} from '@element-plus/icons-vue'
 import {ref} from 'vue'
 import {ElMessage} from 'element-plus'
+//调用注册接口
+import {adminLoginService, userLoginService, userRegisterService} from '@/api/user.js'
+//表单数据校验，登录表单与注册表单的校验规则相同，所以复用注册表单的校验规则
+//旧登录函数
+import {useRouter} from "vue-router";
+import {useTokenStore} from "@/stores/token.js";
 
 const isAdminLogin = ref(false);
 
@@ -38,9 +44,6 @@ const rules = {
   ]
 }
 
-//调用注册接口
-import {userRegisterService} from '@/api/user.js'
-
 const userRegister = async () => {
   let result = await userRegisterService(registerData.value);
   /*  if (result.code === 1) {
@@ -58,15 +61,10 @@ const loginData = ref({
   username: '',
   password: ''
 })
-//表单数据校验，登录表单与注册表单的校验规则相同，所以复用注册表单的校验规则
-//旧登录函数
-import {useRouter} from "vue-router";
+
 const router = useRouter();
 
-import {useTokenStore} from "@/stores/token.js";
 const tokenStore = useTokenStore();
-
-import {adminLoginService, userLoginService} from '@/api/user.js'
 
 // 修改登录函数
 const userLogin = async () => {
@@ -142,6 +140,7 @@ const clearLoginData = () => {
         </el-form-item>
         <el-form-item prop="password">
           <el-input name="password" :prefix-icon="Lock" type="password" placeholder="请输入密码"
+                    show-password
                     v-model="loginData.password"></el-input>
         </el-form-item>
         <el-form-item class="flex">

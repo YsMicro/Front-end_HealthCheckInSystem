@@ -6,7 +6,7 @@
     <TypeWriter
         :color="'#4bba84'"
         :fontSize="'2rem'"
-        :phrases="['Hello World!', 'Hello Vue3', ' Health Check-in System']"
+        :phrases="['Hello World!', 'Hello Vue3!', ' Health Check-in System']"
         :speed="80"/>
   </el-card>
 </template>

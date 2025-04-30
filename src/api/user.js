@@ -46,3 +46,8 @@ export const userAvatarUpdateService = (avatarUrl) => {
     console.log("params:" + params);
     return request.patch('/user/updateAvatar', params);
 }
+
+// 更新用户密码
+export const updatePasswordService = (passwordData) => {
+    return request.patch('/user/updatePassword', passwordData);
+}
