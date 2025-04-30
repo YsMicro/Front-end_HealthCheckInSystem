@@ -38,3 +38,11 @@ export const userInfoService = () => {
 export const updateUserInfoService = (userInfoData) => {
     return request.put('/user/update', userInfoData);
 }
+
+// 更新用户头像
+export const userAvatarUpdateService = (avatarUrl) => {
+    const params = new URLSearchParams();
+    params.append('avatarUrl', avatarUrl);
+    console.log("params:" + params);
+    return request.patch('/user/updateAvatar', params);
+}
